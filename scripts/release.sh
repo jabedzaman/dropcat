@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Local release: test -> pick version -> build -> zip -> tag -> GitHub release.
+# Local release: test -> pick version -> build -> dmg -> tag -> GitHub release.
 #
 #   scripts/release.sh                 # auto version from conventional commits, asks before publishing
 #   scripts/release.sh --dry-run       # print the version + notes, change nothing
-#   scripts/release.sh --no-publish    # test + build + zip into dist/, no tag/push/release
+#   scripts/release.sh --no-publish    # test + build + dmg into dist/, no tag/push/release
 #   scripts/release.sh --version 0.2.0-beta.1
 #   scripts/release.sh --stable        # leave the beta stream (0.1.0-beta.3 -> 0.1.0)
 #   scripts/release.sh --yes           # skip the confirmation prompt
@@ -127,21 +127,27 @@ APP="build/Build/Products/Release/SSHDrop.app"
 [[ -d "$APP" ]] || die "build failed: $APP not found"
 
 mkdir -p dist
-ZIP="dist/SSHDrop-$TAG.zip"
 DMG="dist/SSHDrop-$TAG.dmg"
-SUMS="dist/SSHDrop-$TAG.sha256"
-rm -f "$ZIP" "$DMG" "$SUMS"
-ditto -c -k --keepParent "$APP" "$ZIP"
+rm -f "$DMG"
 
-# Disk image with the usual drag-to-Applications layout.
+# Disk image with the usual drag-to-Applications layout. This is the only release asset;
+# GitHub adds "Source code (zip / tar.gz)" to every release on its own.
 STAGE="$(mktemp -d)"
 cp -R "$APP" "$STAGE/"
 ln -s /Applications "$STAGE/Applications"
-hdiutil create -volname "SSHDrop $VERSION" -srcfolder "$STAGE" -ov -format UDZO "$DMG" >/dev/null
+hdiutil create -volname "SSHDrop $VERSION" -srcfolder "$STAGE" -ov -format UDZO "$DMG" >/dev/null 2>&1
 rm -rf "$STAGE"
+SHA="$(shasum -a 256 "$DMG" | cut -d' ' -f1)"
+echo "==> built $DMG ($(du -h "$DMG" | cut -f1))"
 
-( cd dist && shasum -a 256 "SSHDrop-$TAG.dmg" "SSHDrop-$TAG.zip" > "SSHDrop-$TAG.sha256" )
-echo "==> built $DMG ($(du -h "$DMG" | cut -f1)) and $ZIP ($(du -h "$ZIP" | cut -f1))"
+RELEASE_NOTES="$NOTES
+
+### Install
+1. Download **SSHDrop-$TAG.dmg** below and open it.
+2. Drag **SSHDrop** into **Applications**.
+3. First launch: right-click the app and choose **Open** (the build is not notarized).
+
+\`SHA-256: $SHA\`"
 
 [[ $PUBLISH -eq 1 ]] || { echo "(--no-publish: stopping before tag/push/release)"; exit 0; }
 
@@ -154,5 +160,5 @@ fi
 PRERELEASE=(); [[ "$VERSION" == *-* ]] && PRERELEASE=(--prerelease)
 git tag -a "$TAG" -m "SSHDrop $VERSION"
 git push origin "$TAG"
-gh release create "$TAG" "$DMG" "$ZIP" "$SUMS" --title "SSHDrop $VERSION" --notes "$NOTES" ${PRERELEASE[@]+"${PRERELEASE[@]}"}
+gh release create "$TAG" "$DMG" --title "SSHDrop $VERSION" --notes "$RELEASE_NOTES" ${PRERELEASE[@]+"${PRERELEASE[@]}"}
 echo "==> released $TAG"

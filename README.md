@@ -23,8 +23,8 @@ Releases are cut locally with one script, no CI needed:
 
 ```sh
 scripts/release.sh --dry-run     # show the next version + notes, change nothing
-scripts/release.sh               # test, build, zip, tag, publish to GitHub (asks first)
-scripts/release.sh --no-publish  # test + build + zip into dist/ only
+scripts/release.sh               # test, build, dmg, tag, publish to GitHub (asks first)
+scripts/release.sh --no-publish  # test + build + dmg into dist/ only
 ```
 
 Needs `git`, `swift`/Xcode, `xcodegen` and `gh` (logged in). Run it from a clean, pushed `main`.
