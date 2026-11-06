@@ -1,0 +1,15 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "packages": {
+    ".": {
+      "release-type": "simple",
+      "package-name": "sshdrop",
+      "include-component-in-tag": false,
+      "versioning": "prerelease",
+      "prerelease": true,
+      "prerelease-type": "beta",
+      "bump-minor-pre-major": true,
+      "release-as": "0.1.0-beta"
+    }
+  }
+}
