@@ -19,16 +19,23 @@ Core logic lives in the `SSHDropCore` Swift package: `swift test`.
 
 ## Releases
 
-Versioning is automatic via [release-please](https://github.com/googleapis/release-please).
-Commit messages must follow [Conventional Commits](https://www.conventionalcommits.org):
+Releases are cut locally with one script, no CI needed:
 
-| Prefix | Effect |
+```sh
+scripts/release.sh --dry-run     # show the next version + notes, change nothing
+scripts/release.sh               # test, build, zip, tag, publish to GitHub (asks first)
+scripts/release.sh --no-publish  # test + build + zip into dist/ only
+```
+
+Needs `git`, `swift`/Xcode, `xcodegen` and `gh` (logged in). Run it from a clean, pushed `main`.
+
+The version comes from [Conventional Commits](https://www.conventionalcommits.org) since the last `v*` tag:
+
+| Situation | Next version |
 | --- | --- |
-| `fix:` | patch bump |
-| `feat:` | minor bump |
-| `feat!:` / `BREAKING CHANGE:` | major bump |
-| `chore:`, `docs:`, `ci:`, `test:` | no release |
+| First release | `0.1.0-beta` |
+| Last tag is a beta | `0.1.0-beta.1`, `0.1.0-beta.2`, … (`--stable` graduates to `0.1.0`) |
+| Last tag is stable | `feat:` minor, `fix:` patch, `feat!:` / `BREAKING CHANGE:` major |
+| Only `chore:` `docs:` `ci:` `test:` | nothing to release |
 
-While in beta, versions look like `0.1.0-beta`, `0.1.0-beta.1`, … Merging the release PR that
-release-please opens tags the release and a macOS build is attached to it.
-Release builds are unsigned: on first launch, right-click → Open.
+Use `--version X.Y.Z` to override. Builds are unsigned (ad-hoc): on first launch, right-click → Open.

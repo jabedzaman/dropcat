@@ -6,3 +6,5 @@ DerivedData/
 .DS_Store
 *.dmg
 *.zip
+build/
+dist/
