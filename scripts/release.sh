@@ -128,10 +128,20 @@ APP="build/Build/Products/Release/SSHDrop.app"
 
 mkdir -p dist
 ZIP="dist/SSHDrop-$TAG.zip"
-rm -f "$ZIP"
+DMG="dist/SSHDrop-$TAG.dmg"
+SUMS="dist/SSHDrop-$TAG.sha256"
+rm -f "$ZIP" "$DMG" "$SUMS"
 ditto -c -k --keepParent "$APP" "$ZIP"
-( cd dist && shasum -a 256 "SSHDrop-$TAG.zip" > "SSHDrop-$TAG.zip.sha256" )
-echo "==> built $ZIP ($(du -h "$ZIP" | cut -f1))"
+
+# Disk image with the usual drag-to-Applications layout.
+STAGE="$(mktemp -d)"
+cp -R "$APP" "$STAGE/"
+ln -s /Applications "$STAGE/Applications"
+hdiutil create -volname "SSHDrop $VERSION" -srcfolder "$STAGE" -ov -format UDZO "$DMG" >/dev/null
+rm -rf "$STAGE"
+
+( cd dist && shasum -a 256 "SSHDrop-$TAG.dmg" "SSHDrop-$TAG.zip" > "SSHDrop-$TAG.sha256" )
+echo "==> built $DMG ($(du -h "$DMG" | cut -f1)) and $ZIP ($(du -h "$ZIP" | cut -f1))"
 
 [[ $PUBLISH -eq 1 ]] || { echo "(--no-publish: stopping before tag/push/release)"; exit 0; }
 
@@ -144,5 +154,5 @@ fi
 PRERELEASE=(); [[ "$VERSION" == *-* ]] && PRERELEASE=(--prerelease)
 git tag -a "$TAG" -m "SSHDrop $VERSION"
 git push origin "$TAG"
-gh release create "$TAG" "$ZIP" "$ZIP.sha256" --title "SSHDrop $VERSION" --notes "$NOTES" ${PRERELEASE[@]+"${PRERELEASE[@]}"}
+gh release create "$TAG" "$DMG" "$ZIP" "$SUMS" --title "SSHDrop $VERSION" --notes "$NOTES" ${PRERELEASE[@]+"${PRERELEASE[@]}"}
 echo "==> released $TAG"
