@@ -145,7 +145,9 @@ RELEASE_NOTES="$NOTES
 ### Install
 1. Download **DropCat-$TAG.dmg** below and open it.
 2. Drag **DropCat** into **Applications**.
-3. First launch: right-click the app and choose **Open** (the build is not notarized).
+3. The build is not notarized, so macOS blocks the first launch. Run this once in Terminal:
+   \`xattr -cr /Applications/DropCat.app\`
+   (or System Settings → Privacy & Security → **Open Anyway**).
 
 \`SHA-256: $SHA\`"
 
