@@ -18,3 +18,7 @@ xattr -cr /Applications/DropCat.app
 ```
 
 Or: System Settings → Privacy & Security → scroll down → **Open Anyway**.
+
+## Credits
+
+Cat icon by [Icons8](https://icons8.com).

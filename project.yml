@@ -21,5 +21,6 @@ targets:
         SWIFT_VERSION: "6.0"
         ENABLE_APP_SANDBOX: NO
         GENERATE_INFOPLIST_FILE: YES
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         INFOPLIST_KEY_CFBundleDisplayName: DropCat
         CODE_SIGN_IDENTITY: "-"
