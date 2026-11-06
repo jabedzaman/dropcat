@@ -157,8 +157,7 @@ if [[ $ASSUME_YES -eq 0 ]]; then
   [[ "$ans" == [yY]* ]] || { echo "aborted; build left in dist/"; exit 0; }
 fi
 
-PRERELEASE=(); [[ "$VERSION" == *-* ]] && PRERELEASE=(--prerelease)
 git tag -a "$TAG" -m "DropCat $VERSION"
 git push origin "$TAG"
-gh release create "$TAG" "$DMG" --title "DropCat $VERSION" --notes "$RELEASE_NOTES" ${PRERELEASE[@]+"${PRERELEASE[@]}"}
+gh release create "$TAG" "$DMG" --title "DropCat $VERSION" --notes "$RELEASE_NOTES" --latest
 echo "==> released $TAG"
