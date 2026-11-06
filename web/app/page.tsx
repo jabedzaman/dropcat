@@ -3,8 +3,7 @@ import Image from "next/image";
 const REPO = "https://github.com/jabedzaman/dropcat";
 const RELEASE = `${REPO}/releases/latest`;
 
-// Swap for your recorded demo (put the file in web/public/, e.g. "/demo.gif").
-const DEMO_SRC = "/app.png";
+const DEMO_SRC = "/demo.gif";
 
 const pillars: [string, string][] = [
   ["Native", "Built for macOS. Uses your system ssh and scp, nothing bundled."],
@@ -66,7 +65,7 @@ export default function Home() {
 
       <section className="demo">
         <div className="demo-frame">
-          <Image src={DEMO_SRC} alt="DropCat demo" width={1013} height={725} unoptimized priority />
+          <Image src={DEMO_SRC} alt="DropCat demo" width={1440} height={1080} unoptimized priority />
         </div>
       </section>
 

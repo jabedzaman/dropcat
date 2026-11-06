@@ -79,7 +79,7 @@ small { color: var(--dim); font-size: 13px; }
 .pillars p, .tiles p { color: var(--dim); font-size: 13px; }
 
 .demo { padding: 28px 24px 0; text-align: center; position: relative; }
-.demo-frame { max-width: 960px; margin: 0 auto; }
+.demo-frame { max-width: 960px; margin: 0 auto; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.1); }
 .demo-frame img { width: 100%; height: auto; display: block; }
 
 .head { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 56px 24px 28px; flex-wrap: wrap; }
