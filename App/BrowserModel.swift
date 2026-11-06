@@ -1,5 +1,5 @@
 import SwiftUI
-import SSHDropCore
+import DropCatCore
 import UniformTypeIdentifiers
 
 struct TreeRow: Identifiable {

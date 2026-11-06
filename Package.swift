@@ -2,13 +2,13 @@
 import PackageDescription
 
 let package = Package(
-    name: "SSHDropCore",
+    name: "DropCatCore",
     platforms: [.macOS(.v15)],
     products: [
-        .library(name: "SSHDropCore", targets: ["SSHDropCore"]),
+        .library(name: "DropCatCore", targets: ["DropCatCore"]),
     ],
     targets: [
-        .target(name: "SSHDropCore"),
-        .testTarget(name: "SSHDropCoreTests", dependencies: ["SSHDropCore"]),
+        .target(name: "DropCatCore"),
+        .testTarget(name: "DropCatCoreTests", dependencies: ["DropCatCore"]),
     ]
 )

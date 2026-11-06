@@ -42,7 +42,7 @@ public struct Machine: Identifiable, Codable, Hashable, Sendable {
     }
 
     public static var defaultControlDir: URL {
-        let dir = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent(".sshdrop/cm")
+        let dir = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent(".dropcat/cm")
         try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
         return dir
     }

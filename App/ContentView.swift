@@ -1,5 +1,5 @@
 import SwiftUI
-import SSHDropCore
+import DropCatCore
 
 struct ContentView: View {
     @Environment(AppModel.self) private var model

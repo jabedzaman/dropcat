@@ -1,25 +1,25 @@
-name: SSHDrop
+name: DropCat
 options:
   bundleIdPrefix: dev.jabed
   deploymentTarget:
     macOS: "15.0"
 packages:
-  SSHDropCore:
+  DropCatCore:
     path: .
 targets:
-  SSHDrop:
+  DropCat:
     type: application
     platform: macOS
     sources: [App]
     dependencies:
-      - package: SSHDropCore
+      - package: DropCatCore
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: dev.jabed.sshdrop
+        PRODUCT_BUNDLE_IDENTIFIER: dev.jabed.dropcat
         MARKETING_VERSION: "0.1.0"      # CI overrides this from the release tag
         CURRENT_PROJECT_VERSION: "1"
         SWIFT_VERSION: "6.0"
         ENABLE_APP_SANDBOX: NO
         GENERATE_INFOPLIST_FILE: YES
-        INFOPLIST_KEY_CFBundleDisplayName: SSHDrop
+        INFOPLIST_KEY_CFBundleDisplayName: DropCat
         CODE_SIGN_IDENTITY: "-"

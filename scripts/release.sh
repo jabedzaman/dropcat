@@ -118,16 +118,16 @@ swift test 2>&1 | tail -3
 echo "==> xcodegen + xcodebuild (Release)"
 xcodegen generate >/dev/null
 rm -rf build
-xcodebuild -project SSHDrop.xcodeproj -scheme SSHDrop -configuration Release \
+xcodebuild -project DropCat.xcodeproj -scheme DropCat -configuration Release \
   -destination 'platform=macOS' -derivedDataPath build \
   MARKETING_VERSION="$NUMERIC" CURRENT_PROJECT_VERSION="$BUILD_NUMBER" \
   CODE_SIGN_IDENTITY="-" CODE_SIGNING_REQUIRED=NO build 2>&1 | grep -E "error:|BUILD (SUCCEEDED|FAILED)" || true
 
-APP="build/Build/Products/Release/SSHDrop.app"
+APP="build/Build/Products/Release/DropCat.app"
 [[ -d "$APP" ]] || die "build failed: $APP not found"
 
 mkdir -p dist
-DMG="dist/SSHDrop-$TAG.dmg"
+DMG="dist/DropCat-$TAG.dmg"
 rm -f "$DMG"
 
 # Disk image with the usual drag-to-Applications layout. This is the only release asset;
@@ -135,7 +135,7 @@ rm -f "$DMG"
 STAGE="$(mktemp -d)"
 cp -R "$APP" "$STAGE/"
 ln -s /Applications "$STAGE/Applications"
-hdiutil create -volname "SSHDrop $VERSION" -srcfolder "$STAGE" -ov -format UDZO "$DMG" >/dev/null 2>&1
+hdiutil create -volname "DropCat $VERSION" -srcfolder "$STAGE" -ov -format UDZO "$DMG" >/dev/null 2>&1
 rm -rf "$STAGE"
 SHA="$(shasum -a 256 "$DMG" | cut -d' ' -f1)"
 echo "==> built $DMG ($(du -h "$DMG" | cut -f1))"
@@ -143,8 +143,8 @@ echo "==> built $DMG ($(du -h "$DMG" | cut -f1))"
 RELEASE_NOTES="$NOTES
 
 ### Install
-1. Download **SSHDrop-$TAG.dmg** below and open it.
-2. Drag **SSHDrop** into **Applications**.
+1. Download **DropCat-$TAG.dmg** below and open it.
+2. Drag **DropCat** into **Applications**.
 3. First launch: right-click the app and choose **Open** (the build is not notarized).
 
 \`SHA-256: $SHA\`"
@@ -158,7 +158,7 @@ if [[ $ASSUME_YES -eq 0 ]]; then
 fi
 
 PRERELEASE=(); [[ "$VERSION" == *-* ]] && PRERELEASE=(--prerelease)
-git tag -a "$TAG" -m "SSHDrop $VERSION"
+git tag -a "$TAG" -m "DropCat $VERSION"
 git push origin "$TAG"
-gh release create "$TAG" "$DMG" --title "SSHDrop $VERSION" --notes "$RELEASE_NOTES" ${PRERELEASE[@]+"${PRERELEASE[@]}"}
+gh release create "$TAG" "$DMG" --title "DropCat $VERSION" --notes "$RELEASE_NOTES" ${PRERELEASE[@]+"${PRERELEASE[@]}"}
 echo "==> released $TAG"

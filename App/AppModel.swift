@@ -1,5 +1,5 @@
 import SwiftUI
-import SSHDropCore
+import DropCatCore
 
 enum SidebarItem: Hashable { case machine(UUID), place(String) }
 
@@ -151,7 +151,7 @@ final class AppModel {
     func fetchForPreview(_ file: RemoteFile, on m: Machine, completion: @escaping @MainActor (URL) -> Void) {
         let key = "\(abs(file.path.hashValue))-\(Int(file.modified.timeIntervalSince1970))-\(file.size)"
         let dir = FileManager.default.temporaryDirectory
-            .appendingPathComponent("sshdrop-preview/\(m.id.uuidString)/\(key)", isDirectory: true)
+            .appendingPathComponent("dropcat-preview/\(m.id.uuidString)/\(key)", isDirectory: true)
         let local = dir.appendingPathComponent(file.name)
         if FileManager.default.fileExists(atPath: local.path) { completion(local); return }
         try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)

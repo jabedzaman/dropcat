@@ -12,9 +12,7 @@ public final class StateDB: @unchecked Sendable {
     public struct DBError: Error, LocalizedError { public let errorDescription: String? }
 
     public static var defaultURL: URL {
-        let dir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
-            .appendingPathComponent("sshdrop", isDirectory: true)
-        try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+        let dir = AppPaths.supportDirectory
         return dir.appendingPathComponent("state.sqlite")
     }
 

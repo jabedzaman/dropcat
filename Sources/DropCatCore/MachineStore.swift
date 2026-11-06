@@ -9,9 +9,7 @@ public struct MachineStore: Sendable {
     public init(url: URL = MachineStore.defaultURL, db: StateDB? = nil) { self.url = url; self.db = db }
 
     public static var defaultURL: URL {
-        let dir = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
-            .appendingPathComponent("sshdrop", isDirectory: true)
-        try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+        let dir = AppPaths.supportDirectory
         return dir.appendingPathComponent("machines.json")
     }
 

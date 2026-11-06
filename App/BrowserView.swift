@@ -1,6 +1,6 @@
 import SwiftUI
 import QuickLook
-import SSHDropCore
+import DropCatCore
 
 struct BrowserView: View {
     @Environment(AppModel.self) private var model

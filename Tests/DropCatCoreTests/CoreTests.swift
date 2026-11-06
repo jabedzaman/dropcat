@@ -1,6 +1,6 @@
 import Testing
 import Foundation
-@testable import SSHDropCore
+@testable import DropCatCore
 
 @Test func parsesSSHConfig() {
     let text = """

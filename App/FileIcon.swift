@@ -1,6 +1,6 @@
 import AppKit
 import UniformTypeIdentifiers
-import SSHDropCore
+import DropCatCore
 
 /// System icons (same ones Finder uses), cached by type.
 @MainActor
