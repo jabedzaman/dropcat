@@ -10,7 +10,8 @@ permissions:
 
 jobs:
   release-please:
-    runs-on: ubuntu-latest
+    # Self-hosted Linux box. Only ever reached by pushes to main (see `on:`), never by fork PRs.
+    runs-on: [self-hosted, sshdrop-linux]
     outputs:
       release_created: ${{ steps.rp.outputs.release_created }}
       tag_name: ${{ steps.rp.outputs.tag_name }}
